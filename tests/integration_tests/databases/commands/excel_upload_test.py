@@ -18,6 +18,7 @@ import json
 from datetime import datetime
 
 import pytest
+from flask.ctx import AppContext
 
 from superset import db, security_manager
 from superset.commands.database.excel_import import ExcelImportCommand
@@ -81,16 +82,14 @@ def get_upload_db():
     )
 
 
-@pytest.fixture(scope="function")
-def setup_excel_upload_with_context():
-    with app.app_context():
-        yield from _setup_excel_upload()
+@pytest.fixture()
+def setup_excel_upload_with_context(app_context: AppContext):
+    yield from _setup_excel_upload()
 
 
-@pytest.fixture(scope="function")
-def setup_excel_upload_with_context_schema():
-    with app.app_context():
-        yield from _setup_excel_upload(["public"])
+@pytest.fixture()
+def setup_excel_upload_with_context_schema(app_context: AppContext):
+    yield from _setup_excel_upload(["public"])
 
 
 @only_postgresql
