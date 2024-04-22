@@ -125,6 +125,14 @@ RUN apt-get update -qq \
 RUN pip install playwright
 RUN playwright install-deps
 RUN playwright install chromium
+RUN pip install Cython
+RUN pip install ipython
+RUN pip install SQLAlchemy
+RUN pip install pandas
+RUN pip install Alembic
+RUN pip install pytest pytest-timeout
+RUN pip install gevent
+RUN pip install pymssql
 
 # Install GeckoDriver WebDriver
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
@@ -147,3 +155,5 @@ FROM lean AS ci
 COPY --chown=superset:superset --chmod=755 ./docker/*.sh /app/docker/
 
 CMD ["/app/docker/docker-ci.sh"]
+
+
